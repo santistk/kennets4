@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/templates/layout.xhtml">
+    <ui:define name="content">
+        <div class="card">
+            <h2>Administración de productos</h2>
+            <h:form id="formProducts">
+                <div style="margin-bottom:.75rem;">
+                    <p:commandButton value="Nuevo producto" icon="pi pi-plus"
+                                     actionListener="#{productAdminController.prepareCreate}"
+                                     oncomplete="PF('dlg').show()" update=":dlg"
+                                     styleClass="p-button-rounded"/>
+                </div>
+
+                <p:dataTable value="#{productAdminController.products}" var="p"
+                             paginator="true" rows="10" responsiveLayout="scroll"
+                             styleClass="p-datatable-striped p-datatable-gridlines">
+                    <p:column headerText="ID" width="80">#{p.id}</p:column>
+                    <p:column headerText="Nombre"><b>#{p.name}</b></p:column>
+                    <p:column headerText="Precio" width="140">$ #{p.price}</p:column>
+                    <p:column headerText="Stock" width="100">#{p.stock}</p:column>
+                    <p:column headerText="Acciones" width="210">
+                        <p:commandButton icon="pi pi-pencil" value="Editar"
+                                         actionListener="#{productAdminController.prepareEdit(p)}"
+                                         oncomplete="PF('dlg').show()" update=":dlg"
+                                         styleClass="p-button-text p-button-sm"/>
+                        <p:commandButton icon="pi pi-trash" value="Eliminar"
+                                         actionListener="#{productAdminController.delete(p)}"
+                                         update="@form :globalGrowl"
+                                         styleClass="p-button-danger p-button-text p-button-sm"
+                                         onclick="return confirm('¿Eliminar este producto?')"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </div>
+
+        <!-- Diálogo de alta/edición -->
+        <p:dialog id="dlg" widgetVar="dlg"
+                  header="#{productAdminController.editMode ? 'Editar producto' : 'Nuevo producto'}"
+                  modal="true" closable="true" resizable="false" width="500">
+            <h:form id="formDialog">
+                <h:panelGrid columns="2" columnClasses="muted," styleClass="p-fluid" style="row-gap:.75rem;">
+                    <h:outputText value="Nombre"/>
+                    <p:inputText value="#{productAdminController.selected.name}" required="true"/>
+
+                    <h:outputText value="Descripción"/>
+                    <p:inputTextarea rows="3" autoResize="true"
+                                     value="#{productAdminController.selected.description}"/>
+
+                    <h:outputText value="Precio"/>
+                    <p:inputNumber value="#{productAdminController.selected.price}" symbol="$ " decimalPlaces="2"/>
+
+                    <h:outputText value="Stock"/>
+                    <p:spinner value="#{productAdminController.selected.stock}" min="0"/>
+                </h:panelGrid>
+
+                <div style="margin-top:1rem; display:flex; gap:.5rem; justify-content:flex-end;">
+                    <p:commandButton value="Guardar" icon="pi pi-check"
+                                     actionListener="#{productAdminController.save}"
+                                     update=":formProducts :globalGrowl"
+                                     oncomplete="PF('dlg').hide()"/>
+                    <p:commandButton value="Cancelar" type="button" icon="pi pi-times"
+                                     onclick="PF('dlg').hide()" styleClass="p-button-secondary"/>
+                </div>
+            </h:form>
+        </p:dialog>
+    </ui:define>
+</ui:composition>
+</html>

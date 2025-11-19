@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Project Task Manager</title>
+    <meta charset="UTF-8"/>
+    <style>
+        .brand {
+            font-weight: 800;
+            letter-spacing: .5px;
+        }
+
+        .shell {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        .card {
+            background: var(--surface-card);
+            border-radius: 1rem;
+            padding: 1.25rem;
+            box-shadow: 0 8px 30px -12px rgba(0, 0, 0, .2);
+            margin-bottom: 1rem;
+        }
+
+        .muted {
+            opacity: .8
+        }
+
+        .row-danger {
+            background-color: #ffebee !important;
+        }
+
+        .row-danger:hover {
+            background-color: #ffcdd2 !important;
+        }
+    </style>
+</h:head>
+<h:body>
+    <div class="shell">
+        <div class="card" style="margin-bottom:1rem;">
+            <p:menubar>
+                <p:menuitem value="Proyectos" outcome="/pages/projects.xhtml" icon="pi pi-folder"/>
+                <p:menuitem disabled="true" styleClass="brand" value="Project Task Manager • PrimeFaces + CDI"/>
+            </p:menubar>
+        </div>
+
+        <ui:insert name="content"/>
+        
+        <!-- Growl global y único -->
+        <p:growl id="globalGrowl" showDetail="true" life="3000"/>
+    </div>
+</h:body>
+</html>
