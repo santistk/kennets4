@@ -82,7 +82,7 @@
     <div class="header">
         <h1>Panel de Administración</h1>
         <div>
-            <a href="${pageContext.request.contextPath}/home" class="btn btn-secondary" style="text-decoration: none; display: inline-block;">Volver a Productos</a>
+            <a href="${pageContext.request.contextPath}/app/home" class="btn btn-secondary" style="text-decoration: none; display: inline-block;">Volver a Productos</a>
             <a href="${pageContext.request.contextPath}/auth/logout" class="btn" style="text-decoration: none; display: inline-block; background-color: #dc3545;">Cerrar Sesión</a>
         </div>
     </div>
@@ -96,7 +96,7 @@
             </div>
         <% } %>
         
-        <form action="${pageContext.request.contextPath}/admin" method="post">
+        <form action="${pageContext.request.contextPath}/app/users" method="post">
             <div class="form-group">
                 <label for="name">Nombre del Producto:</label>
                 <input type="text" id="name" name="name" required>
@@ -105,6 +105,11 @@
             <div class="form-group">
                 <label for="price">Precio:</label>
                 <input type="number" id="price" name="price" step="0.01" min="0.01" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="stock">Stock:</label>
+                <input type="number" id="stock" name="stock" min="0" value="0" required>
             </div>
             
             <button type="submit" class="btn">Crear Producto</button>

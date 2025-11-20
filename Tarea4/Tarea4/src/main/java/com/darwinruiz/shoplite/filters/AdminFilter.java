@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter("/admin/*")
+@WebFilter("/app/users/*")
 public class AdminFilter implements Filter {
 
     @Override

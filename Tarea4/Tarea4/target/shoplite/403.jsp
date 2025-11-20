@@ -51,7 +51,7 @@
         <h1>403</h1>
         <h2>Acceso Denegado</h2>
         <p>No tienes permisos para acceder a esta página. Solo los administradores pueden acceder al panel de administración.</p>
-        <a href="${pageContext.request.contextPath}/home" class="btn">Volver a Productos</a>
+        <a href="${pageContext.request.contextPath}/app/home" class="btn">Volver a Productos</a>
     </div>
 </body>
 </html>

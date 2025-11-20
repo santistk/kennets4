@@ -119,7 +119,7 @@
         </div>
         <div class="actions">
             <c:if test="${sessionScope.role == 'ADMIN'}">
-                <a href="${pageContext.request.contextPath}/admin" class="btn btn-success">Panel de Administración</a>
+                <a href="${pageContext.request.contextPath}/app/users" class="btn btn-success">Panel de Administración</a>
             </c:if>
             <a href="${pageContext.request.contextPath}/auth/logout" class="btn btn-danger">Cerrar Sesión</a>
         </div>
@@ -147,7 +147,7 @@
 
         <div class="pagination">
             <c:if test="${page > 1}">
-                <a href="${pageContext.request.contextPath}/home?page=${page - 1}&size=${size}">Anterior</a>
+                <a href="${pageContext.request.contextPath}/app/home?page=${page - 1}&size=${size}">Anterior</a>
             </c:if>
             
             <c:forEach var="i" begin="1" end="${totalPages}">
@@ -156,13 +156,13 @@
                         <span class="current">${i}</span>
                     </c:when>
                     <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/home?page=${i}&size=${size}">${i}</a>
+                        <a href="${pageContext.request.contextPath}/app/home?page=${i}&size=${size}">${i}</a>
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
             
             <c:if test="${page < totalPages}">
-                <a href="${pageContext.request.contextPath}/home?page=${page + 1}&size=${size}">Siguiente</a>
+                <a href="${pageContext.request.contextPath}/app/home?page=${page + 1}&size=${size}">Siguiente</a>
             </c:if>
         </div>
 

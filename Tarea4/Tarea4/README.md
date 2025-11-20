@@ -30,6 +30,9 @@ shoplite/
 │   │   │       ├── models/
 │   │   │       │   ├── User.java
 │   │   │       │   └── Product.java
+│   │   │       ├── services/
+│   │   │       │   ├── UserService.java
+│   │   │       │   └── ProductService.java
 │   │   │       └── repositories/
 │   │   │           ├── IUserRepository.java
 │   │   │           ├── IProductRepository.java
@@ -58,7 +61,7 @@ shoplite/
    - Redirige a login.jsp si no hay sesión válida
 
 2. **AdminFilter** (`src/main/java/com/darwinruiz/shoplite/filters/AdminFilter.java`)
-   - Protege las rutas `/admin/*`
+   - Protege las rutas `/app/users/*`
    - Valida sesión activa
    - Verifica que el rol sea "ADMIN"
    - Hace forward a 403.jsp si no cumple los requisitos
@@ -70,7 +73,7 @@ shoplite/
    - Valida credenciales usando UserRepository (JDBC)
    - Crea nueva sesión con atributos: `auth`, `username`, `role`
    - Configura `maxInactiveInterval` a 30 minutos
-   - Redirige a `/home` si es exitoso, a `login.jsp?err=1` si falla
+   - Redirige a `/app/home` si es exitoso, a `login.jsp?err=1` si falla
 
 2. **LogoutServlet** (`src/main/java/com/darwinruiz/shoplite/controllers/LogoutServlet.java`)
    - Invalida la sesión activa
@@ -86,9 +89,33 @@ shoplite/
    - POST: Crea nuevo producto en PostgreSQL
    - Valida nombre no vacío, precio > 0 y stock >= 0
    - El ID se genera automáticamente por la base de datos
-   - Redirige a `/home` si es exitoso, a `/admin?err=1` si falla
+   - Redirige a `/app/home` si es exitoso, a `/app/users?err=1` si falla
 
 ## Configuración de Base de Datos
+
+### Opción A: Usando Docker (Recomendado) 🐳
+
+**La forma más fácil de configurar PostgreSQL:**
+
+1. **Asegúrate de tener Docker Desktop instalado y corriendo**
+
+2. **Inicia PostgreSQL:**
+   ```bash
+   docker-compose up -d
+   ```
+   
+   O simplemente ejecuta: `start-database.bat`
+
+3. **¡Listo!** El script SQL se ejecuta automáticamente. Tu aplicación ya puede conectarse.
+
+**Comandos útiles:**
+- Ver estado: `docker-compose ps`
+- Ver logs: `docker-compose logs postgres`
+- Detener: `docker-compose down` (o `stop-database.bat`)
+- Reiniciar: `docker-compose restart`
+
+
+### Opción B: Instalación Local de PostgreSQL
 
 ### 1. Crear la base de datos PostgreSQL
 
@@ -109,12 +136,14 @@ O desde psql:
 \i database/init.sql
 ```
 
-### 3. Configurar conexión
+### 3. Configurar conexión (si es necesario)
 
-Editar `src/main/java/com/darwinruiz/shoplite/database/DbConnection.java` y ajustar:
-- `DB_URL`: URL de conexión (por defecto: `jdbc:postgresql://localhost:5432/shoplite`)
-- `DB_USER`: Usuario de PostgreSQL (por defecto: `postgres`)
-- `DB_PASSWORD`: Contraseña de PostgreSQL (por defecto: `postgres`)
+Por defecto, la aplicación se conecta a:
+- URL: `jdbc:postgresql://localhost:5433/shoplite` (puerto 5433 para evitar conflictos)
+- Usuario: `postgres`
+- Contraseña: `postgres`
+
+Si necesitas cambiar esto, edita `src/main/java/com/darwinruiz/shoplite/database/DbConnection.java`
 
 ## Usuarios de Prueba
 
@@ -133,34 +162,45 @@ Editar `src/main/java/com/darwinruiz/shoplite/database/DbConnection.java` y ajus
   - Password: `bob123`
   - Rol: `USER`
 
-## Compilación y Despliegue
+## Inicio Rápido
 
-### 1. Compilar el proyecto
+### 1. Iniciar PostgreSQL (Docker)
+
+```bash
+docker-compose up -d
+```
+
+O ejecuta: `start-database.bat`
+
+**Nota:** Si tienes PostgreSQL local en el puerto 5432, el contenedor usa el puerto 5433 automáticamente.
+
+### 2. Compilar y Desplegar
 
 ```bash
 mvn clean package
 ```
 
-Esto generará el archivo WAR en `target/shoplite.war`
+Copia `target/shoplite.war` a la carpeta `deployments` de WildFly, o usa el script `build-and-deploy.bat`.
 
-### 2. Desplegar en WildFly
+### 3. Iniciar WildFly
 
-El WildFly está ubicado en: `C:\Wildfly\Wildfly\wildfly-36.0.0.Final\wildfly-36.0.0.Final\bin`
+Ejecuta `start-wildfly.bat` o inicia WildFly manualmente.
 
-#### Opción 1: Copiar manualmente
-1. Copiar `target/shoplite.war` a `C:\Wildfly\Wildfly\wildfly-36.0.0.Final\wildfly-36.0.0.Final\standalone\deployments\`
-2. WildFly detectará automáticamente el archivo y lo desplegará
+### 4. Acceder a la aplicación
 
-#### Opción 2: Usar CLI de WildFly
-```bash
-cd C:\Wildfly\Wildfly\wildfly-36.0.0.Final\wildfly-36.0.0.Final\bin
-jboss-cli.bat --connect --command="deploy C:\Programacion IV\Tarea3\target\shoplite.war"
-```
+- URL: `http://localhost:8080/shoplite/`
+- Login: `admin` / `admin123` (ADMIN) o `alice` / `alice123` (USER)
 
-### 3. Acceder a la aplicación
+## Solución de Problemas
 
-Una vez desplegada, acceder a:
-- `http://localhost:8080/shoplite/`
+**Error de conexión a PostgreSQL:**
+- Verifica que Docker esté corriendo: `docker ps`
+- Si hay PostgreSQL local, el contenedor usa puerto 5433
+- Recrea el contenedor: `docker-compose down -v && docker-compose up -d`
+
+**Error de autenticación:**
+- La contraseña por defecto es `postgres` (configurada en `DbConnection.java`)
+- Si cambias la contraseña en Docker, actualiza `DbConnection.java` y recompila
 
 ## Notas Técnicas
 
@@ -168,7 +208,8 @@ Una vez desplegada, acceder a:
 - Los filtros están configurados tanto con anotaciones `@WebFilter` como en `web.xml` para mayor compatibilidad
 - Las sesiones tienen un tiempo de inactividad de 30 minutos
 - **Persistencia:** Los datos se almacenan en PostgreSQL usando JDBC puro
-- **Arquitectura:** Controllers → Repositories (JDBC) → PostgreSQL
+- **Arquitectura:** Controllers → Services → Repositories (JDBC) → PostgreSQL
+- **Rutas:** `/app/*` protegidas por AuthFilter, `/app/users/*` protegidas por AdminFilter
 - **Conexión:** Singleton pattern en `DbConnection` para conexión centralizada
 - **Repositorios:** Interfaces (`IUserRepository`, `IProductRepository`) con implementaciones JDBC
 - **Paginación:** Implementada a nivel de base de datos para mejor rendimiento

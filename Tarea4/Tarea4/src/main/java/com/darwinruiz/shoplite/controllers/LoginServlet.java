@@ -51,8 +51,8 @@ public class LoginServlet extends HttpServlet {
         // Configurar maxInactiveInterval a 30 minutos
         session.setMaxInactiveInterval(30 * 60);
 
-        // Redirigir a /home
-        response.sendRedirect(request.getContextPath() + "/home");
+        // Redirigir a /app/home
+        response.sendRedirect(request.getContextPath() + "/app/home");
     }
 }
 

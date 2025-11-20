@@ -30,7 +30,7 @@
             margin-bottom: 5px;
             color: #555;
         }
-        input[type="email"],
+        input[type="text"],
         input[type="password"] {
             width: 100%;
             padding: 10px;
@@ -80,8 +80,8 @@
         
         <form action="${pageContext.request.contextPath}/auth/login" method="post">
             <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+                <label for="username">Usuario:</label>
+                <input type="text" id="username" name="username" required>
             </div>
             
             <div class="form-group">
@@ -96,8 +96,9 @@
         
         <div style="margin-top: 30px; padding: 15px; background-color: #e9ecef; border-radius: 4px; font-size: 12px;">
             <strong>Usuarios de prueba:</strong><br>
-            Admin: admin@shoplite.com / admin123<br>
-            Usuario: user@shoplite.com / user123
+            Admin: admin / admin123<br>
+            Usuario: alice / alice123<br>
+            Usuario: bob / bob123
         </div>
     </div>
 </body>

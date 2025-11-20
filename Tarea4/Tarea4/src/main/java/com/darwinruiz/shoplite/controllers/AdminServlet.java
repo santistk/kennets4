@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/admin")
+@WebServlet("/app/users")
 public class AdminServlet extends HttpServlet {
 
     private ProductService productService;
@@ -36,7 +36,7 @@ public class AdminServlet extends HttpServlet {
 
         // Validar que el nombre no esté vacío y el precio sea mayor a 0
         if (name == null || name.trim().isEmpty()) {
-            response.sendRedirect(request.getContextPath() + "/admin?err=1");
+            response.sendRedirect(request.getContextPath() + "/app/users?err=1");
             return;
         }
 
@@ -44,11 +44,11 @@ public class AdminServlet extends HttpServlet {
         try {
             price = Double.parseDouble(priceParam);
             if (price <= 0) {
-                response.sendRedirect(request.getContextPath() + "/admin?err=1");
+                response.sendRedirect(request.getContextPath() + "/app/users?err=1");
                 return;
             }
         } catch (NumberFormatException e) {
-            response.sendRedirect(request.getContextPath() + "/admin?err=1");
+            response.sendRedirect(request.getContextPath() + "/app/users?err=1");
             return;
         }
 
@@ -57,12 +57,12 @@ public class AdminServlet extends HttpServlet {
             if (stockParam != null && !stockParam.isEmpty()) {
                 stock = Integer.parseInt(stockParam);
                 if (stock < 0) {
-                    response.sendRedirect(request.getContextPath() + "/admin?err=1");
+                    response.sendRedirect(request.getContextPath() + "/app/users?err=1");
                     return;
                 }
             }
         } catch (NumberFormatException e) {
-            response.sendRedirect(request.getContextPath() + "/admin?err=1");
+            response.sendRedirect(request.getContextPath() + "/app/users?err=1");
             return;
         }
 
@@ -70,8 +70,8 @@ public class AdminServlet extends HttpServlet {
         Product product = new Product(name.trim(), price, stock);
         productService.save(product);
 
-        // Si es válido, redirigir a /home
-        response.sendRedirect(request.getContextPath() + "/home");
+        // Si es válido, redirigir a /app/home
+        response.sendRedirect(request.getContextPath() + "/app/home");
     }
 }
 

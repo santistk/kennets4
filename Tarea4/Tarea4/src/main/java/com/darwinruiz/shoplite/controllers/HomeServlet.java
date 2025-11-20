@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/home")
+@WebServlet("/app/home")
 public class HomeServlet extends HttpServlet {
 
     private ProductService productService;

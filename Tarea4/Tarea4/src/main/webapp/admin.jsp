@@ -82,7 +82,7 @@
     <div class="header">
         <h1>Panel de Administración</h1>
         <div>
-            <a href="${pageContext.request.contextPath}/home" class="btn btn-secondary" style="text-decoration: none; display: inline-block;">Volver a Productos</a>
+            <a href="${pageContext.request.contextPath}/app/home" class="btn btn-secondary" style="text-decoration: none; display: inline-block;">Volver a Productos</a>
             <a href="${pageContext.request.contextPath}/auth/logout" class="btn" style="text-decoration: none; display: inline-block; background-color: #dc3545;">Cerrar Sesión</a>
         </div>
     </div>
@@ -96,7 +96,7 @@
             </div>
         <% } %>
         
-        <form action="${pageContext.request.contextPath}/admin" method="post">
+        <form action="${pageContext.request.contextPath}/app/users" method="post">
             <div class="form-group">
                 <label for="name">Nombre del Producto:</label>
                 <input type="text" id="name" name="name" required>
