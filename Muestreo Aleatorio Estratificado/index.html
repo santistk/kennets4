@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muestreo Aleatorio Estratificado - Proyecto Completo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.8;
+      color: #2c3e50;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+    }
+    
+    /* Portada/Carátula */
+    .cover-page {
+      background: white;
+      padding: 80px 60px;
+      margin-bottom: 50px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      border-radius: 0 0 15px 15px;
+      text-align: center;
+      page-break-after: always;
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .cover-page .university-header {
+      margin-bottom: 30px;
+    }
+    
+    .cover-page .university-name {
+      font-size: 1.4em;
+      font-weight: 700;
+      color: #1a252f;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+    
+    .cover-page .faculty {
+      font-size: 1.1em;
+      color: #34495e;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    
+    .cover-page .school {
+      font-size: 1.05em;
+      color: #34495e;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    
+    .cover-page .program {
+      font-size: 1.05em;
+      color: #34495e;
+      margin-bottom: 40px;
+      font-weight: 500;
+    }
+    
+    .cover-page .logo-container {
+      margin: 40px 0;
+    }
+    
+    .cover-page .logo-container img {
+      max-width: 280px;
+      height: auto;
+      margin: 0 auto;
+    }
+    
+    .cover-page .project-title {
+      font-size: 2.2em;
+      font-weight: 700;
+      color: #1a252f;
+      margin: 50px 0 60px 0;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    
+    .cover-page .course-info {
+      margin: 40px 0;
+      font-size: 1.2em;
+      color: #34495e;
+    }
+    
+    .cover-page .instructor {
+      font-size: 1.3em;
+      font-weight: 600;
+      color: #2c3e50;
+      margin: 20px 0 40px 0;
+    }
+    
+    .cover-page .members-section {
+      margin: 50px 0 40px 0;
+    }
+    
+    .cover-page .members-title {
+      font-size: 1.4em;
+      font-weight: 700;
+      color: #1a252f;
+      margin-bottom: 25px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .cover-page .members-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .cover-page .members-list li {
+      font-size: 1.15em;
+      color: #34495e;
+      margin-bottom: 12px;
+      line-height: 1.6;
+    }
+    
+    .cover-page .footer-info {
+      margin-top: 60px;
+      font-size: 1.1em;
+      color: #7f8c8d;
+      font-style: italic;
+    }
+    
+    .cover-page .footer-info .location {
+      text-decoration: underline;
+    }
+    
+    /* Contenido principal */
+    .content-wrapper {
+      background: white;
+      padding: 40px 50px;
+      margin: 0 20px 40px 20px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+      border-radius: 12px;
+    }
+    
+    h1 {
+      color: #1a252f;
+      text-align: center;
+      font-size: 2.5em;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 4px solid #3498db;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+    }
+    
+    h2 {
+      color: #2c3e50;
+      border-left: 6px solid #3498db;
+      padding-left: 20px;
+      margin-top: 50px;
+      margin-bottom: 25px;
+      font-size: 1.8em;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+    
+    h3 {
+      color: #2980b9;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      font-size: 1.4em;
+      font-weight: 600;
+    }
+    
+    p {
+      margin-bottom: 18px;
+      text-align: justify;
+      font-size: 1.05em;
+      color: #34495e;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 30px 0;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      overflow: hidden;
+      background: white;
+    }
+    
+    th, td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    
+    th {
+      background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+      color: white;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.9em;
+      letter-spacing: 0.5px;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #f8f9fa;
+    }
+    
+    tr:hover {
+      background-color: #e8f4f8;
+      transition: background-color 0.2s ease;
+    }
+    
+    pre {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border: 1px solid #dee2e6;
+      border-left: 4px solid #3498db;
+      padding: 20px;
+      overflow-x: auto;
+      border-radius: 6px;
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+      font-size: 0.95em;
+      line-height: 1.6;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    code {
+      background-color: #f1f3f5;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+      font-size: 0.9em;
+      color: #e83e8c;
+      border: 1px solid #e9ecef;
+    }
+    
+    .highlight {
+      background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
+      padding: 20px;
+      border-left: 5px solid #ffc107;
+      margin: 25px 0;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(255,193,7,0.2);
+    }
+    
+    .pdf-container {
+      width: 100%;
+      margin: 30px 0;
+      border: 2px solid #dee2e6;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      background: #f8f9fa;
+    }
+    
+    .pdf-container iframe {
+      width: 100%;
+      height: 800px;
+      border: none;
+      display: block;
+    }
+    
+    .pdf-link {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 3px 10px rgba(52,152,219,0.3);
+    }
+    
+    .pdf-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(52,152,219,0.4);
+      color: white;
+    }
+    
+    .footer {
+      margin-top: 80px;
+      text-align: center;
+      color: #7f8c8d;
+      font-size: 0.95em;
+      padding: 30px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      border-top: 3px solid #3498db;
+    }
+    
+    .prompt {
+      background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+      border: 2px solid #81c784;
+      padding: 25px;
+      border-radius: 8px;
+      margin: 35px 0;
+      box-shadow: 0 3px 10px rgba(76,175,80,0.15);
+    }
+    
+    .section {
+      margin-bottom: 50px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid #e9ecef;
+    }
+    
+    .section:last-of-type {
+      border-bottom: none;
+    }
+    
+    ul, ol {
+      padding-left: 30px;
+      margin-bottom: 20px;
+    }
+    
+    li {
+      margin-bottom: 12px;
+      line-height: 1.8;
+      color: #34495e;
+    }
+    
+    .center {
+      text-align: center;
+    }
+    
+    a {
+      color: #3498db;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    
+    a:hover {
+      color: #2980b9;
+      text-decoration: underline;
+    }
+    
+    /* Índice mejorado */
+    .section#indice {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      padding: 30px;
+      border-radius: 10px;
+      border: 2px solid #dee2e6;
+      margin-bottom: 40px;
+    }
+    
+    .section#indice ol {
+      list-style: none;
+      counter-reset: item;
+    }
+    
+    .section#indice li {
+      counter-increment: item;
+      margin-bottom: 15px;
+      padding-left: 40px;
+      position: relative;
+    }
+    
+    .section#indice li::before {
+      content: counter(item);
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: #3498db;
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.9em;
+    }
+    
+    /* Mejoras tipográficas */
+    strong {
+      color: #1a252f;
+      font-weight: 600;
+    }
+    
+    em {
+      color: #555;
+      font-style: italic;
+    }
+    
+    /* Responsive */
+    @media print {
+      .cover-page {
+        page-break-after: always;
+      }
+      .content-wrapper {
+        box-shadow: none;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .content-wrapper {
+        padding: 25px;
+        margin: 0 10px 20px 10px;
+      }
+      
+      h1 {
+        font-size: 2em;
+      }
+      
+      h2 {
+        font-size: 1.5em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Portada con Carátula -->
+  <div class="cover-page">
+    <div class="university-header">
+      <div class="university-name">UNIVERSIDAD SAN PABLO DE GUATEMALA</div>
+      <div class="faculty">Facultad de Ciencias Empresariales</div>
+      <div class="school">Escuela de Ingeniería</div>
+      <div class="program">Ingeniería en Sistemas</div>
+    </div>
+    
+    <div class="logo-container">
+      <img src="logo.png" alt="Logo Universidad San Pablo Guatemala">
+    </div>
+    
+    <div class="project-title">Muestreo Aleatorio Estratificado</div>
+    
+    <div class="course-info">Estadística Matemática</div>
+    
+    <div class="instructor">Javier Andrés Rodríguez Mayen</div>
+    
+    <div class="members-section">
+      <div class="members-title">Integrantes</div>
+      <ul class="members-list">
+        <li>Kennet Anderson Santisteban Torres</li>
+        <li>Javier Augusto Estrada Gordillo</li>
+        <li>Jonathan Javier Soberanis Castillo</li>
+        <li>Gustavo Adolfo Ortiz Gutiérrez</li>
+      </ul>
+    </div>
+    
+    <div class="footer-info">
+      <span class="location">Guatemala, Noviembre 2,025</span>
+    </div>
+  </div>
+
+  <!-- Contenido Principal -->
+  <div class="content-wrapper">
+
+
+  <div class="section" id="indice">
+    <h2>Índice Detallado</h2>
+    <ol>
+      <li><a href="#introduccion">Introducción</a></li>
+      <li><a href="#definicion">Definición y Origen Histórico</a></li>
+      <li><a href="#fundamentos">Fundamentos Matemáticos y Propiedades Estadísticas</a></li>
+      <li><a href="#asignacion">Tipos de Asignación Muestral: Proporcional vs. Óptimo</a></li>
+      <li><a href="#pasos">Pasos Metodológicos para Implementar el Muestreo Estratificado</a></li>
+      <li><a href="#ventajas">Ventajas, Desventajas y Limitaciones</a></li>
+      <li><a href="#comparacion">Comparación con Otros Métodos de Muestreo</a></li>
+      <li><a href="#aplicaciones">Aplicaciones en Diferentes Campos</a></li>
+      <li><a href="#ejemplo1">Ejemplo 1: Encuesta Empresarial (Proporcional)</a></li>
+      <li><a href="#ejemplo2">Ejemplo 2: Estudio Universitario (Óptimo)</a></li>
+      <li><a href="#python">Simulación Computacional con Python</a></li>
+      <li><a href="#errores">Errores Comunes y Recomendaciones Prácticas</a></li>
+      <li><a href="#conclusion">Conclusión</a></li>
+      <li><a href="#referencias">Referencias Bibliográficas</a></li>
+      <li><a href="#anexos">Anexos</a></li>
+      <li><a href="#prompt">Prompt para IA de Presentaciones</a></li>
+    </ol>
+  </div>
+
+  <div class="section" id="introduccion">
+    <h2>1. Introducción</h2>
+    <p>El muestreo aleatorio estratificado es una técnica fundamental en la estadística inferencial y en la investigación social, económica y científica. Su objetivo principal es maximizar la precisión de las estimaciones al reducir la varianza muestral mediante la división de la población en subgrupos homogéneos llamados <em>estratos</em>.</p>
+    <p>A diferencia del muestreo aleatorio simple, donde cada elemento tiene la misma probabilidad de ser seleccionado sin considerar sus características, el muestreo estratificado reconoce la heterogeneidad interna de la población y busca representarla de manera equilibrada.</p>
+    <p>Este método es especialmente útil cuando se espera que los estratos difieran significativamente entre sí en la variable de interés, lo que permite obtener estimaciones más confiables y eficientes.</p>
+  </div>
+
+  <div class="section" id="definicion">
+    <h2>2. Definición y Origen Histórico</h2>
+    <p><strong>Definición Formal:</strong><br>
+    El muestreo aleatorio estratificado es un procedimiento de selección probabilística en el que la población se divide en <em>L</em> subpoblaciones disjuntas y exhaustivas (estratos), y se extrae una muestra aleatoria simple de tamaño <em>n<sub>i</sub></em> de cada estrato <em>i</em>, con <em>i = 1, 2, ..., L</em>.</p>
+    
+    <p><strong>Origen:</strong><br>
+    El concepto fue formalizado en la década de 1930 por estadísticos como William G. Cochran y Jerzy Neyman, quienes desarrollaron la teoría matemática detrás de la asignación óptima y proporcional. Se popularizó en encuestas gubernamentales (como el censo de EE.UU.) y estudios de mercado.</p>
+  </div>
+
+  <div class="section" id="fundamentos">
+    <h2>3. Fundamentos Matemáticos y Propiedades Estadísticas</h2>
+    <p><strong>Notación Básica:</strong></p>
+    <ul>
+      <li><strong>N</strong>: Tamaño total de la población</li>
+      <li><strong>N<sub>i</sub></strong>: Tamaño del estrato <em>i</em></li>
+      <li><strong>n</strong>: Tamaño total de la muestra</li>
+      <li><strong>n<sub>i</sub></strong>: Tamaño de la muestra en el estrato <em>i</em></li>
+      <li><strong>y̅<sub>i</sub></strong>: Media muestral en el estrato <em>i</em></li>
+      <li><strong>σ<sub>i</sub><sup>2</sup></strong>: Varianza poblacional en el estrato <em>i</em></li>
+      <li><strong>y̅<sub>st</sub></strong>: Estimador de la media poblacional usando muestreo estratificado</li>
+    </ul>
+
+    <p><strong>Estimador de la Media Poblacional:</strong><br>
+    <code>y̅<sub>st</sub> = Σ(W<sub>i</sub> * y̅<sub>i</sub>)</code> &nbsp; donde &nbsp; <code>W<sub>i</sub> = N<sub>i</sub> / N</code></p>
+
+    <p><strong>Varianza del Estimador (muestreo aleatorio simple dentro de estratos):</strong><br>
+    <code>V(y̅<sub>st</sub>) = Σ[W<sub>i</sub><sup>2</sup> * (1 - n<sub>i</sub>/N<sub>i</sub>) * σ<sub>i</sub><sup>2</sup> / n<sub>i</sub>]</code></p>
+
+    <p><strong>Eficiencia Relativa:</strong><br>
+    El muestreo estratificado es más eficiente que el muestreo aleatorio simple si la variabilidad <em>entre</em> estratos es mayor que la variabilidad <em>dentro</em> de ellos.</p>
+  </div>
+
+  <div class="section" id="asignacion">
+    <h2>4. Tipos de Asignación Muestral</h2>
+
+    <h3>Asignación Proporcional</h3>
+    <p><code>n<sub>i</sub> = n * (N<sub>i</sub> / N)</code></p>
+    <ul>
+      <li>Simple y fácil de implementar.</li>
+      <li>Garantiza que la muestra refleje la estructura poblacional.</li>
+      <li>Ideal cuando todos los estratos tienen variabilidad similar.</li>
+    </ul>
+
+    <h3>Asignación Óptima (Neyman)</h3>
+    <p><code>n<sub>i</sub> = n * (N<sub>i</sub> * σ<sub>i</sub>) / Σ(N<sub>j</sub> * σ<sub>j</sub>)</code></p>
+    <ul>
+      <li>Maximiza la precisión (minimiza la varianza) dada un costo fijo.</li>
+      <li>Asigna más muestra a estratos con mayor variabilidad.</li>
+      <li>Requiere conocimiento previo de las varianzas σ<sub>i</sub><sup>2</sup>.</li>
+    </ul>
+
+    <h3>Asignación Óptima con Costos Diferenciales</h3>
+    <p><code>n<sub>i</sub> = n * (N<sub>i</sub> * σ<sub>i</sub> / √c<sub>i</sub>) / Σ(N<sub>j</sub> * σ<sub>j</sub> / √c<sub>j</sub>)</code></p>
+    <ul>
+      <li>Considera costos diferentes por unidad en cada estrato (<em>c<sub>i</sub></em>).</li>
+      <li>Útil en estudios de campo donde algunos estratos son más caros de acceder.</li>
+    </ul>
+  </div>
+
+  <div class="section" id="pasos">
+    <h2>5. Pasos Metodológicos para Implementar el Muestreo Estratificado</h2>
+    <ol>
+      <li><strong>Definir la población objetivo y el marco muestral</strong> → ¿Quiénes son los elementos que se van a estudiar? ¿Dónde están listados?</li>
+      <li><strong>Identificar y definir los estratos relevantes</strong> → Deben ser mutuamente excluyentes y exhaustivos. Ejemplos: género, edad, región, nivel socioeconómico, tipo de producto.</li>
+      <li><strong>Determinar el tamaño total de la muestra (n)</strong> → Basado en el nivel de confianza, margen de error y variabilidad esperada.</li>
+      <li><strong>Elegir el tipo de asignación (proporcional u óptimo)</strong> → Depende de disponibilidad de información sobre varianzas y costos.</li>
+      <li><strong>Calcular el tamaño muestral por estrato (n<sub>i</sub>)</strong> → Usando las fórmulas anteriores.</li>
+      <li><strong>Seleccionar aleatoriamente los elementos dentro de cada estrato</strong> → Usar números aleatorios, software, o herramientas como Excel/Python.</li>
+      <li><strong>Recoger y analizar los datos</strong> → Calcular medias, proporciones, intervalos de confianza por estrato y global.</li>
+      <li><strong>Reportar resultados con ponderaciones adecuadas</strong> → No promediar directamente; usar y̅<sub>st</sub> = Σ W<sub>i</sub> * y̅<sub>i</sub>.</li>
+    </ol>
+  </div>
+
+  <div class="section" id="ventajas">
+    <h2>6. Ventajas, Desventajas y Limitaciones</h2>
+    <table>
+      <tr>
+        <th>✅ Ventajas</th>
+        <th>❌ Desventajas</th>
+      </tr>
+      <tr>
+        <td>
+          <ul>
+            <li>Mayor precisión en estimaciones (menor varianza)</li>
+            <li>Representatividad garantizada por grupos clave</li>
+            <li>Permite análisis comparativo entre estratos</li>
+            <li>Reduce sesgo de selección</li>
+            <li>Ideal para poblaciones heterogéneas</li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>Requiere conocimiento previo de la población para definir estratos</li>
+            <li>Puede ser costoso si hay muchos estratos o acceso difícil</li>
+            <li>Difícil si los estratos no están bien definidos o son ambiguos</li>
+            <li>Requiere más planificación y recursos que el muestreo simple</li>
+            <li>No es aplicable si no se puede identificar claramente los estratos</li>
+          </ul>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="section" id="comparacion">
+    <h2>7. Comparación con Otros Métodos de Muestreo</h2>
+    <table>
+      <tr>
+        <th>Método</th>
+        <th>Selección</th>
+        <th>Representatividad</th>
+        <th>Eficiencia</th>
+        <th>Complejidad</th>
+      </tr>
+      <tr>
+        <td>Aleatorio Simple</td>
+        <td>Azar puro</td>
+        <td>Baja si población heterogénea</td>
+        <td>Baja</td>
+        <td>Baja</td>
+      </tr>
+      <tr>
+        <td>Sistemático</td>
+        <td>Cada k-ésimo elemento</td>
+        <td>Moderada</td>
+        <td>Moderada</td>
+        <td>Baja</td>
+      </tr>
+      <tr>
+        <td>Por Conglomerados</td>
+        <td>Grupos geográficos o naturales</td>
+        <td>Baja si conglomerados heterogéneos</td>
+        <td>Alta si conglomerados homogéneos</td>
+        <td>Moderada</td>
+      </tr>
+      <tr>
+        <td>Estratificado</td>
+        <td>Por subgrupos homogéneos</td>
+        <td>Alta</td>
+        <td>Alta</td>
+        <td>Alta</td>
+      </tr>
+    </table>
+    <p class="highlight"><strong>💡 Cuándo usar cada uno:</strong><br>
+    - <strong>Estratificado:</strong> Cuando quieres asegurar representación de subgrupos importantes.<br>
+    - <strong>Conglomerados:</strong> Cuando la población está dispersa geográficamente.<br>
+    - <strong>Simple/Sistemático:</strong> Para poblaciones homogéneas o cuando el tiempo/costo es limitado.</p>
+  </div>
+
+  <div class="section" id="aplicaciones">
+    <h2>8. Aplicaciones en Diferentes Campos</h2>
+    <ul>
+      <li><strong>🏥 Salud Pública:</strong> Estimar prevalencia de enfermedades por grupo etario, género o región. Ejemplo: Estudio de vacunación en niños de 0-5 años, 6-12 años y adolescentes.</li>
+      <li><strong>🛒 Marketing y Ventas:</strong> Segmentar clientes por ingreso, ubicación o comportamiento de compra. Ejemplo: Encuesta de satisfacción en tiendas urbanas, suburbanas y rurales.</li>
+      <li><strong>🎓 Educación:</strong> Evaluar rendimiento académico por carrera, nivel socioeconómico o tipo de institución. Ejemplo: Comparar promedios entre estudiantes de ingeniería, humanidades y ciencias sociales.</li>
+      <li><strong>🏛️ Gobierno y Políticas Públicas:</strong> Medir impacto de programas sociales por zona geográfica o grupo vulnerable. Ejemplo: Evaluación de subsidios alimentarios en zonas urbanas, periurbanas y rurales.</li>
+      <li><strong>📊 Investigación Académica:</strong> Estudios de opinión, encuestas electorales, análisis de mercado. Ejemplo: Sondeo electoral por estado, partido político y nivel educativo.</li>
+    </ul>
+  </div>
+
+  <div class="section" id="ejemplo1">
+    <h2>9. Ejemplo 1: Encuesta Empresarial (Proporcional) – Paso a Paso</h2>
+    <p><strong>Contexto:</strong> Una agencia de publicidad quiere estudiar el rendimiento de 352 empresas en EE.UU. según su inversión en capital. Las empresas se dividen en 5 estratos por nivel de recuperación de capital.</p>
+    
+    <table>
+      <tr>
+        <th>Estrato</th>
+        <th>Probabilidad (Recuperación)</th>
+        <th>Número de Empresas (N<sub>i</sub>)</th>
+        <th>Frecuencia Relativa (W<sub>i</sub>)</th>
+        <th>Muestra (n=50)</th>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>30% y más</td>
+        <td>8</td>
+        <td>0.02</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>20% a 30%</td>
+        <td>35</td>
+        <td>0.10</td>
+        <td>5</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>10% a 20%</td>
+        <td>189</td>
+        <td>0.54</td>
+        <td>27</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>0% a 10%</td>
+        <td>115</td>
+        <td>0.33</td>
+        <td>16</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>Déficit</td>
+        <td>5</td>
+        <td>0.01</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td><strong>Total</strong></td>
+        <td>—</td>
+        <td><strong>352</strong></td>
+        <td><strong>1.00</strong></td>
+        <td><strong>50</strong></td>
+      </tr>
+    </table>
+
+    <p><strong>Cálculo de muestra proporcional:</strong><br>
+    <code>n<sub>i</sub> = N<sub>i</sub> × (n / N) = N<sub>i</sub> × (50 / 352)</code></p>
+    <ul>
+      <li>Estrato 1: 8 × 50 / 352 ≈ 1.14 → 1</li>
+      <li>Estrato 2: 35 × 50 / 352 ≈ 4.97 → 5</li>
+      <li>Estrato 3: 189 × 50 / 352 ≈ 26.85 → 27</li>
+      <li>Estrato 4: 115 × 50 / 352 ≈ 16.34 → 16</li>
+      <li>Estrato 5: 5 × 50 / 352 ≈ 0.71 → 1</li>
+    </ul>
+    <p class="highlight"><strong>✅ Total: 50 empresas, asignadas proporcionalmente.</strong></p>
+  </div>
+
+  <div class="section" id="ejemplo2">
+    <h2>10. Ejemplo 2: Estudio Universitario (Óptimo) – Cálculo Detallado</h2>
+    <p><strong>Contexto:</strong> Una universidad con 10,000 estudiantes quiere estudiar el rendimiento académico. La población se estratifica por género y carrera:</p>
+
+    <table>
+      <tr>
+        <th>Estrato</th>
+        <th>Tamaño (N<sub>i</sub>)</th>
+        <th>Desviación Estándar (σ<sub>i</sub>)</th>
+        <th>Costo por unidad (c<sub>i</sub>)</th>
+      </tr>
+      <tr>
+        <td>Hombres - Ing.</td>
+        <td>2,500</td>
+        <td>12</td>
+        <td>5</td>
+      </tr>
+      <tr>
+        <td>Mujeres - Ing.</td>
+        <td>2,000</td>
+        <td>10</td>
+        <td>5</td>
+      </tr>
+      <tr>
+        <td>Hombres - Letras</td>
+        <td>3,000</td>
+        <td>15</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>Mujeres - Letras</td>
+        <td>2,500</td>
+        <td>13</td>
+        <td>3</td>
+      </tr>
+    </table>
+
+    <p><strong>Objetivo:</strong> Seleccionar una muestra de 500 estudiantes usando asignación óptima con costos (Neyman modificado).</p>
+
+    <p><strong>Fórmula:</strong><br>
+    <code>n<sub>i</sub> = n × (N<sub>i</sub> × σ<sub>i</sub> / √c<sub>i</sub>) / Σ(N<sub>j</sub> × σ<sub>j</sub> / √c<sub>j</sub>)</code></p>
+
+    <p><strong>Cálculo de numeradores:</strong></p>
+    <ul>
+      <li>Hombres - Ing.: 2500 × 12 / √5 ≈ 13,416.4</li>
+      <li>Mujeres - Ing.: 2000 × 10 / √5 ≈ 8,944.3</li>
+      <li>Hombres - Letras: 3000 × 15 / √3 ≈ 25,980.8</li>
+      <li>Mujeres - Letras: 2500 × 13 / √3 ≈ 18,763.8</li>
+    </ul>
+    <p><strong>Suma total:</strong> 67,105.3</p>
+
+    <p><strong>Asignación:</strong></p>
+    <ul>
+      <li>Hombres - Ing.: 500 × 13,416.4 / 67,105.3 ≈ 100</li>
+      <li>Mujeres - Ing.: 500 × 8,944.3 / 67,105.3 ≈ 67</li>
+      <li>Hombres - Letras: 500 × 25,980.8 / 67,105.3 ≈ 194</li>
+      <li>Mujeres - Letras: 500 × 18,763.8 / 67,105.3 ≈ 139</li>
+    </ul>
+    <p class="highlight"><strong>✅ Total: 500 estudiantes, asignados óptimamente según variabilidad y costo.</strong></p>
+  </div>
+
+  <div class="section" id="python">
+    <h2>11. Simulación Computacional con Python</h2>
+    
+    <div class="pdf-container">
+      <iframe src="python code.pdf" type="application/pdf"></iframe>
+    </div>
+    
+    <a href="python code.pdf" target="_blank" class="pdf-link">📄 Abrir PDF en nueva ventana</a>
+  
+  <div class="section" id="errores">
+    <h2>12. Errores Comunes y Recomendaciones Prácticas</h2>
+    <h3>❌ Errores Comunes:</h3>
+    <ul>
+      <li>Definir estratos demasiado pequeños o numerosos → aumenta costo y complejidad.</li>
+      <li>No verificar la exclusividad y exhaustividad de los estratos → puede haber solapamiento o omisión.</li>
+      <li>Usar asignación proporcional cuando hay grandes diferencias de variabilidad → pierdes eficiencia.</li>
+      <li>Ignorar el diseño en el análisis → tratar la muestra estratificada como si fuera simple → sesga los resultados.</li>
+    </ul>
+
+    <h3>✅ Recomendaciones:</h3>
+    <ul>
+      <li>Usa software estadístico (SPSS, R, Python) para gestionar y analizar muestras estratificadas.</li>
+      <li>Si no conoces las varianzas, usa asignación proporcional como punto de partida.</li>
+      <li>Documenta claramente cómo se definieron los estratos y cómo se asignó la muestra.</li>
+      <li>En presentaciones, muestra las tablas de asignación y los cálculos para transparencia.</li>
+    </ul>
+  </div>
+
+  <div class="section" id="conclusion">
+    <h2>13. Conclusión</h2>
+    <p>El muestreo aleatorio estratificado es una técnica estadística robusta y versátil que permite obtener estimaciones más precisas y representativas de poblaciones heterogéneas. Su aplicación correcta requiere una planificación cuidadosa, comprensión de los fundamentos matemáticos y atención a los detalles metodológicos.</p>
+    <p>Al elegir correctamente los estratos y el tipo de asignación, se logra un balance óptimo entre precisión, costo y viabilidad. Además, su uso en campos como salud, educación, marketing y política pública demuestra su relevancia y utilidad práctica.</p>
+    <p>Para los estudiantes e investigadores, dominar esta técnica no solo mejora la calidad de sus proyectos, sino que también fortalece su capacidad crítica para diseñar estudios rigurosos y éticos.</p>
+  </div>
+
+  <div class="section" id="referencias">
+    <h2>14. Referencias Bibliográficas</h2>
+    <ol>
+      <li>Cochran, W. G. (1977). <em>Sampling Techniques</em> (3rd ed.). Wiley.</li>
+      <li>Lohr, S. L. (2010). <em>Sampling: Design and Analysis</em> (2nd ed.). Cengage Learning.</li>
+      <li>Scheaffer, R. L., Mendenhall, W., & Ott, R. L. (2011). <em>Elementary Survey Sampling</em> (7th ed.). Cengage Learning.</li>
+      <li>Triola, M. F. (2017). <em>Estadística</em> (12ª ed.). Pearson Educación.</li>
+      <li>Lind, D. A., Marchal, W. G., & Wathen, S. A. (2021). <em>Estadística Aplicada a los Negocios y la Economía</em> (18ª ed.). McGraw-Hill Education.</li>
+      <li>Wikipedia. (2025). <em>Stratified sampling</em>. https://en.wikipedia.org/wiki/Stratified_sampling</li>
+      <li>United Nations. (2019). <em>Principles and Recommendations for Population and Housing Censuses</em>.</li>
+      <li>IBM SPSS Statistics. (2024). <em>Complex Samples Module Documentation</em>.</li>
+    </ol>
+  </div>
+
+  <div class="section" id="anexos">
+    <h2>15. Anexos</h2>
+    <h3>Anexo A: Tabla de Fórmulas Clave</h3>
+    <table>
+      <tr>
+        <th>Concepto</th>
+        <th>Fórmula</th>
+      </tr>
+      <tr>
+        <td>Media estratificada</td>
+        <td><code>y̅<sub>st</sub> = Σ(W<sub>i</sub> * y̅<sub>i</sub>)</code></td>
+      </tr>
+      <tr>
+        <td>Varianza del estimador</td>
+        <td><code>V(y̅<sub>st</sub>) = Σ[W<sub>i</sub><sup>2</sup> * (1 - n<sub>i</sub>/N<sub>i</sub>) * σ<sub>i</sub><sup>2</sup> / n<sub>i</sub>]</code></td>
+      </tr>
+      <tr>
+        <td>Asignación proporcional</td>
+        <td><code>n<sub>i</sub> = n * (N<sub>i</sub> / N)</code></td>
+      </tr>
+      <tr>
+        <td>Asignación óptima</td>
+        <td><code>n<sub>i</sub> = n * (N<sub>i</sub> * σ<sub>i</sub>) / Σ(N<sub>j</sub> * σ<sub>j</sub>)</code></td>
+      </tr>
+      <tr>
+        <td>Asignación óptima con costos</td>
+        <td><code>n<sub>i</sub> = n * (N<sub>i</sub> * σ<sub>i</sub> / √c<sub>i</sub>) / Σ(N<sub>j</sub> * σ<sub>j</sub> / √c<sub>j</sub>)</code></td>
+      </tr>
+    </table>
+
+    <h3>Anexo B: Gráfico Conceptual de Estratificación</h3>
+    <p><em>(Insertar diagrama: Población → Dividida en estratos → Muestra aleatoria por estrato → Resultado combinado)</em></p>
+
+    <h3>Anexo C: Código Python Extendido (con funciones reutilizables)</h3>
+    <pre><code>def asignacion_optima_con_costos(N_i, sigma_i, c_i, n_total):
+    numerador = [N_i[i] * sigma_i[i] / (c_i[i]**0.5) for i in range(len(N_i))]
+    suma = sum(numerador)
+    n_i = [round(n_total * numerador[i] / suma) for i in range(len(N_i))]
+    diff = n_total - sum(n_i)
+    n_i[0] += diff
+    return n_i
+
+# Ejemplo de uso
+N_i = [2500, 2000, 3000, 2500]
+sigma_i = [12, 10, 15, 13]
+c_i = [5, 5, 3, 3]
+n_total = 500
+
+resultado = asignacion_optima_con_costos(N_i, sigma_i, c_i, n_total)
+print("Muestra por estrato:", resultado)</code></pre>
+  </div>
+
+ 
+
+</body>
+</html>
